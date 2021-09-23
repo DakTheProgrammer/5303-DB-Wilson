@@ -1,1 +1,1 @@
-<img src="../../Images/GitPic.PNG" width="300">
+<img src="../../Images/Schema.PNG" width="300">
