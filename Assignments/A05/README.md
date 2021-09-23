@@ -1,1 +1,1 @@
-<img src="../../Images/Schema.JPG" width="300">
+<img src="../../Images/Schema.JPG" width="600">
