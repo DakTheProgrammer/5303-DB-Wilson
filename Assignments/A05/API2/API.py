@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import FastAPI
 import mysql.connector
 import json
@@ -13,8 +14,8 @@ cursor = cnx.cursor()
 @app.get('/')
 async def root():
     url = 'http://167.99.6.44:8002/'
-    GETroutes = ['PercGenre/<string>GENRE', 'AllGenre/<string>GENRE', 'DirecGenre/<string>NAME', 'HighRateGenre/<string>GENRE', 'TitleInfo/<string>NAME']
-    example = [url + 'PercGenre/comedy', url + 'AllGenre/action', url + 'DirecGenre/Woody Allen', url + 'HighRateGenre/horror', url + 'TitleInfo/Up']
+    GETroutes = GETroutes = ['PercGenre/<string>GENRE', 'AllGenre/<string>GENRE', 'DirecGenre/<string>NAME', 'HighRateGenre/<string>GENRE', 'TitleInfo/<string>NAME', 'AllMovies(PLEASE DO NOT RUN THIS WILL CRASH MY SMALL SERVER)', 'AllMovies/<int>YEAR', 'AllMoviesRun/<int>RUNTIME', '/AllMoviesRun/<int>RUNTIME1/<int>RUNTIME2', 'AllMoviesActor/<string>ACTORID', 'Actor/<string>NAME', 'ActorMovies/<string>MOVIEID', 'ActorGenre/<string>GENRE', 'ActorWorkedWith/<string>ACTORID', 'ActorsWithProfession/<string>PROFESSION', 'DiffrentGenres', 'DiffrentProfessions']
+    example = [url + 'PercGenre/comedy', url + 'AllGenre/action', url + 'DirecGenre/Woody Allen', url + 'HighRateGenre/horror', url + 'TitleInfo/Up', url + 'AllMovies(PLEASE DO NOT RUN THIS WILL CRASH MY SMALL SERVER)', url + 'AllMovies/2003', url + 'AllMoviesRun/95', url + 'AllMoviesRun/82/93', url +'AllMoviesActor/nm0000020', url + 'Actor/Tom', url + 'ActorMovies/tt0003107', url + 'ActorGenre/Horror', url + 'ActorWorkedWith/nm0000329', url + 'ActorsWithProfession/writer', url + 'DiffrentGenres', url + 'DiffrentProfessions']
 
     dicGETroute = {}
 
@@ -188,6 +189,189 @@ async def TitleInfo(title: str):
     data = [title]
 
     cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/AllMovies/')
+async def AllMovies():
+    question = 'Find all titles'
+
+    sql = 'SELECT title, y.* FROM Movies AS x JOIN AboutMovies AS y ON (x.t_id = y.t_id)'
+
+    cursor.execute(sql)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/AllMovies/{year}')
+async def AllMoviesYear(year: int):
+    question = 'Find all tiles in given year'
+
+    sql = 'SELECT title, y.* FROM Movies AS x JOIN AboutMovies AS y ON (x.t_id = y.t_id) WHERE year = %s'
+
+    data = [year]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/AllMoviesRun/{runtime}')
+async def AllMoviesRuntime(runtime: int):
+    question = 'Find all tiles that run higher then a given time(min)'
+
+    sql = 'SELECT title, y.* FROM Movies AS x JOIN AboutMovies AS y ON (x.t_id = y.t_id) WHERE runtime > %s'
+
+    data = [runtime]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/AllMoviesRun/{runtime1}/{runtime2}')
+async def AllMoviesRuntimes(runtime1: int, runtime2: int):
+    question = 'Find all tiles that run between two given time(min) > left < right'
+
+    sql = 'SELECT title, y.* FROM Movies AS x JOIN AboutMovies AS y ON (x.t_id = y.t_id) WHERE runtime > %s AND runtime < %s'
+
+    data = [runtime1, runtime2]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/AllMoviesActor/{actorid}')
+async def AllMoviesActor(actorid: str):
+    question = 'Find all tiles that an actor has acted in'
+
+    sql = 'SELECT title, name_real FROM Movies AS x JOIN MovieCrew AS y ON (x.t_id = y.t_id) JOIN FilmMakers AS z ON (z.name_id = y.name_id) WHERE z.name_id = %s'
+
+    data = [actorid]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+# @app.get('/AllMovies/{actorids}')
+# async def AllMoviesActors(actorids: List):
+#     ...
+
+@app.get('/Actor/{name}')
+async def Actor(name: str):
+    question = 'Find all info about a given actor'
+
+    sql = 'SELECT * FROM FilmMakers WHERE name_real LIKE %s'
+
+    data = ['%' + name + '%']
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/ActorMovies/{movieid}')
+async def ActorMovies(movieid: str):
+    question = 'Find all actor information from a given movie'
+
+    sql = 'SELECT x.*, ordering, catigory, characters FROM FilmMakers AS x JOIN MovieCrew AS y ON (x.name_id = y.name_id) WHERE y.t_id = %s'
+
+    data = [movieid]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/ActorGenre/{genre}')
+async def ActorGenre(genre: str):
+    question = 'Find all actors that have acted in a given genre'
+
+    sql = 'SELECT DISTINCT x.*, genre FROM FilmMakers AS x JOIN MovieCrew AS y ON (x.name_id = y.name_id) JOIN AboutMovies AS z ON (y.t_id = z.t_id) WHERE z.genre = %s'
+
+    data = [genre]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/ActorWorkedWith/{actorid}')
+async def ActorWorkedWith(actorid: str):
+    question = 'Find all actors who have worked with a given actor'
+
+    sql = 'SELECT DISTINCT x.* FROM FilmMakers AS x JOIN MovieCrew AS y ON (x.name_id = y.name_id) WHERE x.name_id != %s AND (y.t_id IN (SELECT t_id FROM MovieCrew WHERE name_id = %s))'
+
+    data = [actorid, actorid]
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+
+# @app.get('/ActorWorkedWithList/{actorids}')
+# async def ActorWorkedWithList(actorids: list):
+#     ...
+
+@app.get('/ActorsWithProfession/{profession}')
+async def ActorsWithProfession(profession: str):
+    question = 'Find all actors who have a given profession'
+
+    sql = 'SELECT * FROM FilmMakers WHERE professions LIKE %s'
+
+    data = ['%' + profession + '%']
+
+    cursor.execute(sql, data)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/DiffrentGenres/')
+async def DiffrentGenres():
+    question = 'Find all the diffrent combonations of genres'
+
+    sql = 'SELECT DISTINCT genre FROM AboutMovies'
+
+    cursor.execute(sql)
+
+    columns = cursor.description
+    result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
+
+    return{'question:': question, 'query': sql, 'result': result}
+
+@app.get('/DiffrentProfessions/')
+async def DiffrentProfessions():
+    question = 'Find all the diffrent combonations of professions'
+
+    sql = 'SELECT DISTINCT professions FROM FilmMakers'
+
+    cursor.execute(sql)
 
     columns = cursor.description
     result = [{columns[index][0]:column for index, column in enumerate(value)} for value in cursor.fetchall()]
