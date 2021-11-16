@@ -1,4 +1,5 @@
-http://167.99.6.44:8002/
+# API:
+http://167.99.6.44:8004/
 
 # What is this project:
   - This project is a full stack web based app using ElectronJS Wtih Vue3. This uses my backend API and MySQL database to create a reactive web based multi platform application that allows somone to edit and retrive data about Midwestern State Universities class schedule, student info, and advising forms. This would if implemented help advisors and students to use an easy and nice looking app to acess information to assist in registration. 
