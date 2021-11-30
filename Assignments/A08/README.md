@@ -35,8 +35,8 @@
   - It is also real world in that I have designed it in a way that if you were to create a new semster there would be only limited amount of code that would need to change
 
 # Images
-<img src="Pics/Front.png">
-<img src="Pics/EmptyForm.png">
-<img src="Pics/ExampleClass.png">
-<img src="Pics/ExampleStudent.png">
-<img src="Pics/SampleForm.png">
+<img src="Pics/Ins.png">
+<img src="Pics/SingSel.png">
+<img src="Pics/MulSel.png">
+<img src="Pics/Upd.png">
+<img src="Pics/Del.png">
