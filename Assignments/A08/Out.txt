@@ -1,0 +1,98 @@
+==========================INSERTS======================
+Sql took  0.6527795791625977  seconds to insert  250
+Sql took  1.0883374214172363  seconds to insert  500
+Sql took  1.4947612285614014  seconds to insert  750
+Sql took  1.992079257965088  seconds to insert  1000
+---------------------------------------------------
+Mongo took  0.017749547958374023  seconds to insert  250
+Mongo took  0.02144312858581543  seconds to insert  500
+Mongo took  0.020214319229125977  seconds to insert  750
+Mongo took  0.019330263137817383  seconds to insert  1000
+---------------------------------------------------
+Redis took  0.029475688934326172  seconds to insert  250
+Redis took  0.055153608322143555  seconds to insert  500
+Redis took  0.07750892639160156  seconds to insert  750
+Redis took  0.09746837615966797  seconds to insert  1000
+==========================SINGLE SELECTS======================
+Sql took  0.06972122192382812  seconds to search  250  single random items
+MongoDB took  0.002073526382446289  seconds to search  250  single random ite
+Redis took  0.02922224998474121  seconds to search  250  single random items
+----------------------------------------------
+
+Sql took  0.12959718704223633  seconds to search  500  single random items
+MongoDB took  0.0043065547943115234  seconds to search  500  single random it
+Redis took  0.06691908836364746  seconds to search  500  single random items
+----------------------------------------------
+
+Sql took  0.19870829582214355  seconds to search  750  single random items
+MongoDB took  0.005527019500732422  seconds to search  750  single random ite
+Redis took  0.1006619930267334  seconds to search  750  single random items
+----------------------------------------------
+
+Sql took  0.22284817695617676  seconds to search  1000  single random items
+MongoDB took  0.006979465484619141  seconds to search  1000  single random it
+Redis took  0.11511945724487305  seconds to search  1000  single random items
+----------------------------------------------
+
+==========================MULTI SELECTS======================
+Sql took  0.7627711296081543  seconds to search  250  multiple random items
+MongoDB took  0.001519918441772461  seconds to search  250  multiple random is
+Redis took  26.189958572387695  seconds to search  250  multiple items
+----------------------------------------------
+
+Sql took  1.2441902160644531  seconds to search  500  multiple random items
+MongoDB took  0.002897024154663086  seconds to search  500  multiple random is
+Redis took  52.912468671798706  seconds to search  500  multiple items
+----------------------------------------------
+
+Sql took  1.862914800643921  seconds to search  750  multiple random items
+MongoDB took  0.004547119140625  seconds to search  750  multiple random item
+Redis took  79.00338840484619  seconds to search  750  multiple items
+----------------------------------------------
+
+Sql took  2.554379940032959  seconds to search  1000  multiple random items
+MongoDB took  0.006163597106933594  seconds to search  1000  multiple random ms
+Redis took  104.60214567184448  seconds to search  1000  multiple items
+----------------------------------------------
+
+==========================UPDATES======================
+Sql took  0.6959624290466309  seconds to update  250  random items
+MongoDB took  0.3242349624633789  seconds to update  250  random items
+Redis took  0.05552387237548828  seconds to update  250  random items
+----------------------------------------------
+
+Sql took  1.3091650009155273  seconds to update  500  random items
+MongoDB took  0.3916652202606201  seconds to update  500  random items
+Redis took  0.11783337593078613  seconds to update  500  random items
+----------------------------------------------
+
+Sql took  1.5196754932403564  seconds to update  750  random items
+MongoDB took  0.6029448509216309  seconds to update  750  random items
+Redis took  0.14240479469299316  seconds to update  750  random items
+----------------------------------------------
+
+Sql took  1.729546308517456  seconds to update  1000  random items
+MongoDB took  0.7465927600860596  seconds to update  1000  random items
+Redis took  0.18608760833740234  seconds to update  1000  random items
+----------------------------------------------
+
+==========================DELETES======================
+Sql took  0.29815196990966797  seconds to delete  250  items
+MongoDB took  0.12168121337890625  seconds to delete  250  items
+Redis took  0.026503562927246094  seconds to delete  250  items
+----------------------------------------------
+
+Sql took  0.8594667911529541  seconds to delete  500  items
+MongoDB took  0.22675752639770508  seconds to delete  500  items
+Redis took  0.03398752212524414  seconds to delete  500  items
+----------------------------------------------
+
+Sql took  1.0977592468261719  seconds to delete  750  items
+MongoDB took  0.335125207901001  seconds to delete  750  items
+Redis took  0.0520782470703125  seconds to delete  750  items
+----------------------------------------------
+
+Sql took  0.010350942611694336  seconds to delete  1000  items
+MongoDB took  0.0029866695404052734  seconds to delete  1000  items
+Redis took  0.0017459392547607422  seconds to delete  1000  items
+----------------------------------------------
